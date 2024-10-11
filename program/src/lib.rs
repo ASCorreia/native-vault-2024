@@ -1,10 +1,11 @@
 mod state;
 mod instructions;
+mod error;
 
 use instructions::*;
 use solana_program::{account_info::AccountInfo, declare_id, entrypoint::ProgramResult, program_error::ProgramError, pubkey::Pubkey};
 
-declare_id!("5oiJ1nqgCKyT2Ktka7g5aywj3YDBZ7EiV33m8E5jrDuF");
+declare_id!("tjGXp9aPM7WNcMpBqAtDVVkZMjJAACvW1BE9ADgPEeV");
 
 
 #[cfg(not(feature = "no-entrypoint"))]
@@ -22,9 +23,7 @@ pub fn process_instruction(
 
     match VaultInstruction::try_from(instruction_discriminant[0]).unwrap() {
         VaultInstruction::Deposit => process_deposit_instruction(accounts, instruction_data_inner)?,
-        VaultInstruction::Withdraw => todo!(),
-        _ => return Err(ProgramError::InvalidInstructionData),
-        
+        VaultInstruction::Withdraw => process_withdraw_instruction(accounts, instruction_data)?,  
     }
     
     Ok(())
