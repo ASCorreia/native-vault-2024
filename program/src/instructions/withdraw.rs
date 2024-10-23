@@ -21,7 +21,8 @@ pub fn process_withdraw_instruction(
         return Err(VaultError::InvalidAccountData.into());
     }
 
-    let amount: u64 = bytemuck::try_pod_read_unaligned::<u64>(&instruction_data[0..8]).map_err(|_| VaultError::InvalidInstructionData)?;
+    //let amount: u64 = bytemuck::try_pod_read_unaligned::<u64>(&instruction_data[0..8]).map_err(|_| VaultError::InvalidInstructionData)?;
+    let amount: u64 = instruction_data.get(..8).and_then(|slice| slice.try_into().ok()).map(u64::from_le_bytes).unwrap();
 
     let transfer_instruction = solana_program::system_instruction::transfer(vault.key, user.key, amount);
     invoke_signed(

@@ -2,10 +2,13 @@ mod state;
 mod instructions;
 mod error;
 
-use instructions::*;
-use solana_program::{account_info::AccountInfo, declare_id, entrypoint::ProgramResult, program_error::ProgramError, pubkey::Pubkey};
+#[cfg(test)]
+mod tests;
 
-declare_id!("tjGXp9aPM7WNcMpBqAtDVVkZMjJAACvW1BE9ADgPEeV");
+use instructions::*;
+use solana_program::{account_info::AccountInfo, entrypoint::ProgramResult, program_error::ProgramError, pubkey, pubkey::Pubkey};
+
+const ID: Pubkey = pubkey!("tjGXp9aPM7WNcMpBqAtDVVkZMjJAACvW1BE9ADgPEeV");
 
 
 #[cfg(not(feature = "no-entrypoint"))]
